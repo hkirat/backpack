@@ -32,10 +32,9 @@ export default {
   async fetch(request: Request): Promise<Response> {
     const { searchParams, pathname } = new URL(request.url);
 
-    let bundle = searchParams.get("bundle");
+    // @ts-ignore
+    let bundle: string = searchParams.get("bundle");
     let v2 = searchParams.get("v2");
-    //@ts-ignore
-    const xnftAddress: string = searchParams.get("xnftAddress");
 
     if (!bundle) {
       const xnftMint = pathname.match(/^\/(\w{30,50})/)?.[1];
@@ -57,13 +56,13 @@ export default {
     }
 
     // TODO Remove this logic few days after the new renderer releases
-    if (v2 && V1_BUNDLES.includes(xnftAddress)) {
+    if (v2 && V1_BUNDLES.includes(bundle)) {
       // Upgrade Warning example xnft bundle
       bundle =
         "https://xnfts-dev.s3.us-west-2.amazonaws.com/warning-xnft/index-new-wallet-warning.js";
     }
 
-    if (!v2 && !V1_BUNDLES.includes(xnftAddress)) {
+    if (!v2 && !V1_BUNDLES.includes(bundle)) {
       bundle =
         "https://xnfts-dev.s3.us-west-2.amazonaws.com/warning-xnft/index-old-wallet-warning.js";
     }
