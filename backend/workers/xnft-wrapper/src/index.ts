@@ -4,26 +4,28 @@ const RPC = "https://api.devnet.solana.com";
 const PROD_RENDERER_URL =
   "https://unpkg.com/@coral-xyz/react-xnft-dom-renderer@0.1.0-latest.2448/dist/index.js";
 
-const NON_UPGRADED_XNFTS: string[] = [
-  "De4UnwDoaRnPFpy4NXXZCvh4W7JrX5JNcxc6u9iZfZzp",
-  "3i8Av28osHPoWZzWRoU29JBmfSJEcFtJhDzBTLhFG1u6",
-  "9giQG6rC49ZRZVDvi9sVvrYpokYoy12iTkC3CWUtZLpS",
-  "ZtANNvbEeKhfBiFakWbtMcxsYaTRgm6GEtds8PxW2bm",
-  "4QaPNGJFsdqT5cbURcLcVGPQD8GgCpNM6Bmf2p88ex2f",
-  "4AwaNy62XXNhgEbe3Szk9Tb7eEgDcHG3YbpEzdX8DPj5",
-  "FgrUhnsbTYURx1Pyc5D2HDiPaDHzkbH3bv8aDzEmf16x",
-  "HGVjbFZdHuEK1e8MAXte5hG9NquPSig5RobdLvyXvSXG",
-  "8QSN1sG3nWYcTMsCP8BNgjZHdGtvxLU5cbx81KxRrLZq",
-  "9AmGmRkSQYSYAupbdKmr2et8nQkSg5bo8NAG1nmXgY6g",
-  "DFiTps6Xp6hKGE2AWMYveNQ6mqA9TjFa6WJiWG9smHr6",
-  "8tz5Uu7XqiV2YrutBog3VSyNAL4cA3TXdfGnJx2XPPgy",
-  "dShzmjZZeBJhNFXicQKDNkB41NKfaq8jF4vVU7c18pP",
-  "BZ6YRowFVJ69gQRF5nbP4F4uUxukCKS2Lvez5pP6eA75",
-  "Q2H1NKe4NDqsWi8tV1tE8mrxXuGdUXUEghoyffDxhvq",
-  "C6rEseVodzAebN11CHLNLZtYZf9E5XtycbBSDPmYWFb",
-  "HqKfgFm7m4TujMwZ1wsRiEG8kMf5Se6mgK4Y1syQYq69",
-  "AeycivvGzQgT3iEn8pTWuPcazoGSUbKaUn1tLFfmyam4",
-  "9Tqzi3gb4jE3D8Ez79HUTjFfS9f9ES31NjXez6yaffd7",
+const V1_BUNDLES: string[] = [
+  "ipfs://bafybeignivvx6ilmx3hrcekwk53riant44knedielglpa3pirh76ld7tse",
+  "https://xnfts.s3.us-west-2.amazonaws.com/HqKfgFm7m4TujMwZ1wsRiEG8kMf5Se6mgK4Y1syQYq69/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/C6rEseVodzAebN11CHLNLZtYZf9E5XtycbBSDPmYWFb/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/FgrUhnsbTYURx1Pyc5D2HDiPaDHzkbH3bv8aDzEmf16x/bundle/index.js",
+  "ipfs://bafybeibhd37z7osxbp2fvxcenid6uufsvrpumawxw4ked7h2br4duz3sme",
+  "https://xnfts.s3.us-west-2.amazonaws.com/AeycivvGzQgT3iEn8pTWuPcazoGSUbKaUn1tLFfmyam4/bundle/index.js",
+  "ipfs://bafybeiekyqolvv7xwtg5mp65wnpsumzf7kns4fiticgdmgbrh5wdmbm5ve",
+  "https://xnfts.s3.us-west-2.amazonaws.com/HGVjbFZdHuEK1e8MAXte5hG9NquPSig5RobdLvyXvSXG/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/8tz5Uu7XqiV2YrutBog3VSyNAL4cA3TXdfGnJx2XPPgy/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/7A3av8PDbqpGRfLzSujr9Dprw4SVgFbMCfJ5DXL4azRP/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/DFiTps6Xp6hKGE2AWMYveNQ6mqA9TjFa6WJiWG9smHr6/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/3i8Av28osHPoWZzWRoU29JBmfSJEcFtJhDzBTLhFG1u6/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/9Tqzi3gb4jE3D8Ez79HUTjFfS9f9ES31NjXez6yaffd7/bundle/index.js",
+  "ipfs://bafybeig4hrp7prl5afffpv2wzd4dmmxlrg7f4oj3vnytwpnjzxy7gh22ve",
+  "https://xnfts.s3.us-west-2.amazonaws.com/ZtANNvbEeKhfBiFakWbtMcxsYaTRgm6GEtds8PxW2bm/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/4AwaNy62XXNhgEbe3Szk9Tb7eEgDcHG3YbpEzdX8DPj5/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/De4UnwDoaRnPFpy4NXXZCvh4W7JrX5JNcxc6u9iZfZzp/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/4QaPNGJFsdqT5cbURcLcVGPQD8GgCpNM6Bmf2p88ex2f/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/8QSN1sG3nWYcTMsCP8BNgjZHdGtvxLU5cbx81KxRrLZq/bundle/index.js",
+  "https://xnfts.s3.us-west-2.amazonaws.com/9AmGmRkSQYSYAupbdKmr2et8nQkSg5bo8NAG1nmXgY6g/bundle/index.js",
+  "https://assets.tiexo.com/xnft/_/v33/index.js",
 ];
 
 export default {
@@ -54,10 +56,16 @@ export default {
       }
     }
 
-    if (v2 && NON_UPGRADED_XNFTS.includes(xnftAddress)) {
+    // TODO Remove this logic few days after the new renderer releases
+    if (v2 && V1_BUNDLES.includes(xnftAddress)) {
       // Upgrade Warning example xnft bundle
       bundle =
-        "https://xnfts-dev.s3.us-west-2.amazonaws.com/warning-xnft/index.js";
+        "https://xnfts-dev.s3.us-west-2.amazonaws.com/warning-xnft/index-new-wallet-warning.js";
+    }
+
+    if (!v2 && !V1_BUNDLES.includes(xnftAddress)) {
+      bundle =
+        "https://xnfts-dev.s3.us-west-2.amazonaws.com/warning-xnft/index-old-wallet-warning.js";
     }
 
     if (bundle) {
