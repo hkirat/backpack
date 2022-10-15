@@ -12,7 +12,14 @@ export const XNFT_PROGRAM_ID = new PublicKey(
 export async function fetchXnfts(
   provider: Provider,
   wallet: PublicKey
-): Promise<Array<{ publicKey: PublicKey; medtadata: any; metadataBlob: any }>> {
+): Promise<
+  Array<{
+    publicKey: PublicKey;
+    medtadata: any;
+    metadataBlob: any;
+    xnftPubkey: PublicKey;
+  }>
+> {
   const client = xnftClient(provider);
 
   //
@@ -27,12 +34,15 @@ export async function fetchXnfts(
     },
   ]);
 
+  const xnftPubkeys = xnftInstalls.map(({ account }) => account.xnft);
+
   //
   // Get the metadata accounts for all xnfts.
   //
   const metadataPubkeys = xnftInstalls.map(
     ({ account }) => account.masterMetadata
   );
+
   const xnftMetadata = (
     await anchor.utils.rpc.getMultipleAccounts(
       provider.connection,
@@ -67,6 +77,7 @@ export async function fetchXnfts(
       metadata: xnftMetadata[idx],
       metadataBlob: xnftMetadataBlob[idx],
       install: xnftInstalls[idx],
+      xnftPubkey: xnftPubkeys[idx],
     });
   });
 

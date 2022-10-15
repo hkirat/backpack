@@ -35,8 +35,8 @@ const NETWORK_MONITOR = pluginURL(
 //
 const PROXY_URL =
   BACKPACK_CONFIG_XNFT_PROXY === "development"
-    ? "https://localhost:9999?inline=1&bundle="
-    : "https://embed.xnfts.dev?inline=1&bundle=";
+    ? "https://localhost:9999"
+    : "https://embed.xnfts.dev";
 
 function pluginURL(pluginName: string) {
   return [
@@ -47,9 +47,9 @@ function pluginURL(pluginName: string) {
   ].join("");
 }
 
-export function xnftUrl(url: string) {
+export function xnftUrl(url: string, xnftAddress: string) {
   const uri = externalResourceUri(url);
-  return [PROXY_URL, uri].join("");
+  return `${PROXY_URL}?xnftAddress=${xnftAddress}&inline=1&bundle=${uri}&v2=true`;
 }
 
 //
@@ -172,7 +172,10 @@ export const xnfts = atom({
       return xnfts.map((xnft) => {
         return {
           ...xnft,
-          url: xnftUrl(xnft.metadataBlob.properties.bundle),
+          url: xnftUrl(
+            xnft.metadataBlob.properties.bundle,
+            xnft.xnftPubkey.toString()
+          ),
           iconUrl: externalResourceUri(xnft.metadataBlob.image),
           activeWallet: _activeWallets[Blockchain.SOLANA],
           activeWallets: _activeWallets,
