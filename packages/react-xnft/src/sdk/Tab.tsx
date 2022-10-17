@@ -14,16 +14,20 @@ function Navigator({
   top,
   disableScroll,
   options,
+  initialRouteName,
 }: {
   children: any;
   style: React.CSSProperties;
   top?: boolean;
   disableScroll?: boolean;
   options?: TabsOptions;
+  initialRouteName?: string;
 }) {
   const isArray = children && children.length !== undefined;
   const childrenArray = isArray ? children : [children];
-  const initialTab = !children ? null : childrenArray[0].props.name;
+  const initialTab = !children
+    ? null
+    : initialRouteName || childrenArray[0].props.name;
   return (
     <TabProvider initialTab={initialTab} options={options}>
       {top ? (
@@ -174,7 +178,7 @@ function TabProvider({ initialTab, options, children }) {
   );
 }
 
-function useTabContext(): TabContext {
+export function useTabContext(): TabContext {
   const ctx = useContext(_TabContext);
   if (ctx === null) {
     throw new Error("Context not available");

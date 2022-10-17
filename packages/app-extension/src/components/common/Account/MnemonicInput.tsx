@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: any) => ({
     "& .MuiInputAdornment-root": {
       color: theme.custom.colors.secondary,
       fontWeight: 500,
-      minWidth: "12px",
+      minWidth: "11px",
       fontSize: "14px",
     },
     "&:hover": {
@@ -71,10 +71,12 @@ export function MnemonicInput({
   onNext,
   readOnly = false,
   buttonLabel,
+  customError,
 }: {
   onNext: (mnemonic: string) => void;
   readOnly?: boolean;
   buttonLabel: string;
+  customError?: string;
 }) {
   const theme = useCustomTheme();
   const classes = useStyles();
@@ -82,7 +84,7 @@ export function MnemonicInput({
   const [mnemonicWords, setMnemonicWords] = useState<string[]>([
     ...Array(12).fill(""),
   ]);
-  const [error, setError] = useState<null | string>(null);
+  const [error, setError] = useState<string>();
   const [checked, setChecked] = useState(false);
 
   const mnemonic = mnemonicWords.map((f) => f.trim()).join(" ");
@@ -90,6 +92,10 @@ export function MnemonicInput({
   const copyEnabled = mnemonicWords.find((w) => w.length < 3) === undefined;
   // Only allow next if checkbox is checked in read only and all fields are populated
   const nextEnabled = (!readOnly || checked) && copyEnabled;
+
+  useEffect(() => {
+    if (customError) setError(customError);
+  }, [customError]);
 
   //
   // Handle pastes of 12 or 24 word mnemonics.
@@ -154,14 +160,16 @@ export function MnemonicInput({
   return (
     <Box
       sx={{
+        flex: 1,
         display: "flex",
         flexDirection: "column",
         height: "100%",
         justifyContent: "space-between",
+        padding: "0 16px 0 16px",
       }}
     >
-      <Box sx={{ margin: `24px 16px` }}>
-        <Box>
+      <Box>
+        <Box style={{ margin: 8 }}>
           <Header
             text="Secret recovery phrase"
             style={{
@@ -178,13 +186,6 @@ export function MnemonicInput({
           mnemonicWords={mnemonicWords}
           onChange={readOnly ? undefined : setMnemonicWords}
         />
-        {readOnly && (
-          <CheckboxForm
-            checked={checked}
-            setChecked={setChecked}
-            label="I saved my secret recovery phrase"
-          />
-        )}
         {readOnly ? null : (
           <Box
             sx={{
@@ -210,39 +211,38 @@ export function MnemonicInput({
           </Box>
         )}
       </Box>
-      <Box>
-        <Box
-          sx={{
-            marginLeft: "16px",
-            marginRight: "16px",
-            marginBottom: "16px",
-          }}
-        >
-          {error && (
-            <Typography className={classes.errorMsg}>{error}</Typography>
-          )}
-          {readOnly && (
-            <Box sx={{ marginBottom: "12px" }}>
-              <CopyButton
-                text={mnemonic}
-                icon={
-                  <ContentCopyIcon
-                    style={{ color: theme.custom.colors.fontColor }}
-                  />
-                }
-                disabled={!copyEnabled}
+      {readOnly && (
+        <>
+          <CopyButton
+            text={mnemonic}
+            icon={
+              <ContentCopyIcon
+                style={{ color: theme.custom.colors.fontColor }}
               />
-            </Box>
-          )}
-          <PrimaryButton
-            label={buttonLabel}
-            onClick={next}
-            disabled={!nextEnabled}
-            buttonLabelStyle={{
-              fontWeight: 600,
-            }}
+            }
+            disabled={!copyEnabled}
           />
-        </Box>
+          <Box sx={{ margin: "12px" }}>
+            <CheckboxForm
+              checked={checked}
+              setChecked={setChecked}
+              label="I saved my secret recovery phrase"
+            />
+          </Box>
+        </>
+      )}
+      <Box>
+        {error && <Typography className={classes.errorMsg}>{error}</Typography>}
+
+        <PrimaryButton
+          label={buttonLabel}
+          onClick={next}
+          disabled={!nextEnabled}
+          buttonLabelStyle={{
+            fontWeight: 600,
+          }}
+          style={{ marginBottom: 16 }}
+        />
       </Box>
     </Box>
   );

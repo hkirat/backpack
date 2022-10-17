@@ -21,7 +21,6 @@ import {
   SOL_NATIVE_MINT,
   ETH_NATIVE_MINT,
   NATIVE_ACCOUNT_RENT_EXEMPTION_LAMPORTS,
-  BACKPACK_FEATURE_MULTICHAIN,
 } from "@coral-xyz/common";
 import { WithHeaderButton } from "./Token";
 import { SendEthereumConfirmationCard } from "./Ethereum";
@@ -39,6 +38,7 @@ import { useDrawerContext } from "../../../common/Layout/Drawer";
 import { useNavStack } from "../../../common/Layout/NavStack";
 import { MaxLabel } from "../../../common/MaxLabel";
 import { ApproveTransactionDrawer } from "../../../common/ApproveTransactionDrawer";
+import { TokenAmountHeader } from "../../../common/TokenAmountHeader";
 import { CheckIcon, CrossIcon } from "../../../common/Icon";
 
 const useStyles = styles((theme) => ({
@@ -111,7 +111,7 @@ export function SendButton({
         {
           name: "send",
           component: (props: any) => <SendLoader {...props} />,
-          title: `${token.ticker} / Send`,
+          title: `${token?.ticker || ""} / Send`,
           props: {
             blockchain,
             address,
@@ -145,9 +145,7 @@ export function Send({
   const { close } = useDrawerContext();
   const { title, setTitle } = useNavStack();
   const { provider: solanaProvider } = useAnchorContext();
-  const ethereumCtx = BACKPACK_FEATURE_MULTICHAIN
-    ? useEthereumCtx()
-    : undefined;
+  const ethereumCtx = useEthereumCtx();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [address, setAddress] = useState("");
   const [amount, setAmount] = useState<BigNumber | undefined>(undefined);
@@ -165,6 +163,7 @@ export function Send({
     isValidAddress,
     isFreshAddress: _,
     isErrorAddress,
+    normalizedAddress: destinationAddress,
   } = useIsValidAddress(blockchain, address, solanaProvider.connection);
 
   useEffect(() => {
@@ -220,6 +219,11 @@ export function Send({
     );
   }
 
+  const SendConfirmComponent = {
+    [Blockchain.SOLANA]: SendSolanaConfirmationCard,
+    [Blockchain.ETHEREUM]: SendEthereumConfirmationCard,
+  }[blockchain];
+
   return (
     <form
       className={classes.container}
@@ -245,6 +249,7 @@ export function Send({
               isError={isErrorAddress}
               inputProps={{
                 name: "to",
+                spellCheck: "false"
               }}
             />
           </div>
@@ -284,100 +289,20 @@ export function Send({
           openDrawer={openDrawer}
           setOpenDrawer={setOpenDrawer}
         >
-          {blockchain === Blockchain.SOLANA && (
-            <SendSolanaConfirmationCard
-              token={token}
-              destinationAddress={address}
-              amount={amount!}
-              close={() => {
-                setOpenDrawer(false);
-                close();
-              }}
-            />
-          )}
-          {blockchain === Blockchain.ETHEREUM && (
-            <SendEthereumConfirmationCard
-              token={token}
-              destinationAddress={address}
-              amount={amount!}
-              close={() => {
-                setOpenDrawer(false);
-                close();
-              }}
-            />
-          )}
+          <SendConfirmComponent
+            token={token}
+            destinationAddress={destinationAddress}
+            amount={amount!}
+            close={() => {
+              setOpenDrawer(false);
+              close();
+            }}
+          />
         </ApproveTransactionDrawer>
       </div>
     </form>
   );
 }
-
-//
-// Displays token amount header with logo.
-//
-// TODO: similar compoennt in swap code, make one and move to common.
-//
-export const TokenAmountDisplay: React.FC<{
-  style: React.CSSProperties;
-  token: {
-    logo?: string;
-    ticker?: string;
-    decimals: number;
-  };
-  amount: BigNumber;
-}> = ({ style, token, amount }) => {
-  const theme = useCustomTheme();
-
-  return (
-    <div
-      style={{
-        display: "flex",
-        ...style,
-      }}
-    >
-      {/* Dummy padding to center flex content */}
-      <div style={{ flex: 1 }} />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
-          marginRight: "8px",
-        }}
-      >
-        <img
-          src={token.logo}
-          style={{
-            width: "32px",
-            height: "32px",
-            borderRadius: "16px",
-          }}
-        />
-      </div>
-      <Typography
-        style={{
-          color: theme.custom.colors.fontColor,
-          fontWeight: 500,
-          fontSize: "30px",
-          lineHeight: "36px",
-          textAlign: "center",
-        }}
-      >
-        {ethers.utils.formatUnits(amount, token.decimals)}
-        <span
-          style={{
-            marginLeft: "8px",
-            color: theme.custom.colors.secondary,
-          }}
-        >
-          {token.ticker}
-        </span>
-      </Typography>
-      {/* Dummy padding to center flex content */}
-      <div style={{ flex: 1 }} />
-    </div>
-  );
-};
 
 export function Sending({
   blockchain,
@@ -418,7 +343,7 @@ export function Sending({
       >
         {titleOverride ? titleOverride : isComplete ? "Sent" : "Sending..."}
       </Typography>
-      <TokenAmountDisplay
+      <TokenAmountHeader
         style={{
           marginTop: "16px",
           marginBottom: "0px",
@@ -644,6 +569,7 @@ export function useIsValidAddress(
   const [addressError, setAddressError] = useState<boolean>(false);
   const [isFreshAccount, setIsFreshAccount] = useState<boolean>(false); // Not used for now.
   const [accountValidated, setAccountValidated] = useState<boolean>(false);
+  const [normalizedAddress, setNormalizedAddress] = useState<string>(address);
 
   // This effect validates the account address given.
   useEffect(() => {
@@ -677,6 +603,7 @@ export function useIsValidAddress(
         if (!account) {
           setIsFreshAccount(true);
           setAccountValidated(true);
+          setNormalizedAddress(address);
           return;
         }
 
@@ -689,16 +616,19 @@ export function useIsValidAddress(
         // The account data has been successfully validated.
         setAddressError(false);
         setAccountValidated(true);
+        setNormalizedAddress(address);
       } else if (blockchain === Blockchain.ETHEREUM) {
         // Ethereum address validation
+        let checksumAddress;
         try {
-          ethers.utils.getAddress(address);
+          checksumAddress = ethers.utils.getAddress(address);
         } catch (e) {
           setAddressError(true);
           return;
         }
         setAddressError(false);
         setAccountValidated(true);
+        setNormalizedAddress(checksumAddress);
       }
     })();
   }, [address]);
@@ -707,5 +637,6 @@ export function useIsValidAddress(
     isValidAddress: accountValidated,
     isFreshAddress: isFreshAccount,
     isErrorAddress: addressError,
+    normalizedAddress: normalizedAddress,
   };
 }

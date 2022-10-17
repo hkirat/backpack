@@ -1,17 +1,17 @@
 import _CheckIcon from "@mui/icons-material/Check";
 import _CloseIcon from "@mui/icons-material/Close";
-import { useCustomTheme, styles } from "@coral-xyz/themes";
+import { styles } from "@coral-xyz/themes";
 import { useWalletName } from "@coral-xyz/recoil";
 import {
   walletAddressDisplay,
   PrimaryButton,
   SecondaryButton,
 } from "../../../components/common";
+import { ProxyImage } from "../../common/ProxyImage";
 
 const useStyles = styles((theme) => ({
   contentContainer: {
-    marginLeft: "32px",
-    marginRight: "32px",
+    margin: "0 16px",
   },
   connectablesContainer: {
     display: "flex",
@@ -60,7 +60,6 @@ export function WithApproval({
   children: React.ReactNode;
 }) {
   const classes = useStyles();
-  const theme = useCustomTheme();
   return (
     <div
       style={{
@@ -143,7 +142,10 @@ function Connectable({
   return (
     <div className={classes.connectable}>
       <div className={classes.connectableIcon}>
-        <img style={{ maxWidth: "100%", maxHeight: "100%" }} src={icon} />
+        <ProxyImage
+          style={{ maxWidth: "100%", maxHeight: "100%" }}
+          src={icon}
+        />
       </div>
       <div className={classes.connectableTitle}>{title}</div>
       <div className={classes.connectableDescription}>{description}</div>

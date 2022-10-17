@@ -12,7 +12,7 @@ import {
   CustomTheme,
   HOVER_OPACITY,
 } from "@coral-xyz/themes";
-import { TextField } from "@coral-xyz/react-xnft-renderer";
+import { TextField } from "../../plugin/Component";
 import { walletAddressDisplay } from "@coral-xyz/common";
 
 export * from "./List";
@@ -25,7 +25,7 @@ const useStyles = styles((theme: CustomTheme) => ({
   },
   leftLabel: {
     color: theme.custom.colors.fontColor,
-    fontSize: "12px",
+    fontSize: "16px",
     lineHeight: "16px",
     fontWeight: 500,
   },
@@ -236,7 +236,6 @@ export function PrimaryButton({
 }: {
   buttonLabelStyle?: React.CSSProperties;
   label?: string;
-  isSecondary?: boolean;
 } & React.ComponentProps<typeof Button>) {
   const theme = useCustomTheme();
   const classes = useStyles();
@@ -309,7 +308,6 @@ export function SecondaryButton({
       className={classes.secondaryButton}
       buttonLabelStyle={buttonLabelStyle}
       label={label}
-      isSecondary={true}
       {...buttonProps}
       style={buttonStyle}
     />
@@ -327,7 +325,7 @@ export function DangerButton({
   const theme = useCustomTheme();
   const buttonStyle = Object.assign(
     {
-      backgroundColor: theme.custom.colors.dangerButton,
+      backgroundColor: theme.custom.colors.negative,
       color: "#fff",
     },
     buttonProps.style
@@ -345,8 +343,10 @@ export function DangerButton({
 export function SubtextParagraph({
   children,
   style,
+  onClick,
 }: {
   children: any;
+  onClick?: any;
   style?: React.CSSProperties;
 }) {
   const classes = useStyles();
@@ -354,6 +354,7 @@ export function SubtextParagraph({
     <p
       className={classes.subtext}
       style={{ fontWeight: 500, marginTop: "8px", ...style }}
+      onClick={onClick}
     >
       {children}
     </p>

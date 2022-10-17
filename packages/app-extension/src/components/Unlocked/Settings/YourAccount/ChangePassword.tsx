@@ -39,6 +39,7 @@ export function ChangePassword() {
 
   const [currentPasswordError, setCurrentPasswordError] = useState(false);
   const [passwordMismatchError, setPasswordMismatchError] = useState(false);
+  const missingNewPw = newPw1.trim() === "" || newPw2.trim() === "";
 
   useEffect(() => {
     const title = nav.title;
@@ -97,7 +98,7 @@ export function ChangePassword() {
             >
               <Typography style={{ width: "80px" }}>Current</Typography>
               <TextField
-                placeholder="enter password"
+                placeholder="Enter password"
                 type="password"
                 classes={{
                   root: classes.textFieldRoot,
@@ -158,7 +159,7 @@ export function ChangePassword() {
               <TextField
                 value={newPw1}
                 onChange={(e) => setNewPw1(e.target.value)}
-                placeholder="enter password"
+                placeholder="Enter password"
                 type="password"
                 classes={{
                   root: classes.textFieldRoot,
@@ -183,7 +184,7 @@ export function ChangePassword() {
               <TextField
                 value={newPw2}
                 onChange={(e) => setNewPw2(e.target.value)}
-                placeholder="re-enter password"
+                placeholder="Re-enter password"
                 type="password"
                 classes={{
                   root: classes.textFieldRoot,
@@ -212,7 +213,11 @@ export function ChangePassword() {
           </SubtextParagraph>
         </div>
         <div style={{ padding: 16 }}>
-          <PrimaryButton label="Change password" type="submit" />
+          <PrimaryButton
+            label="Change password"
+            type="submit"
+            disabled={missingNewPw}
+          />
         </div>
       </form>
     </div>
