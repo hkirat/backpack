@@ -32,7 +32,7 @@
         window.xnft.on("connect", () => {
           document.getElementById(
             "publicKey"
-          ).innerText = `Your public key is ${window.xnft.publicKey.toString()}`;
+          ).innerText = `Your public key is ${window.xnft.solana.publicKey?.toString()}`;
         });
       });
     </script>
