@@ -13,7 +13,13 @@ export class ChannelContentScript {
   // Forwards all messages from the client to the background script.
   public static proxy(reqChannel: string, respChannel: string) {
     window.addEventListener("message", (event) => {
+      console.log("message came in ");
+      console.log(event.data);
+      console.log("reqchannel is ");
+      console.log(reqChannel);
       if (event.data.type !== reqChannel) return;
+      console.log("event received");
+      console.log(event);
       // @ts-ignore
       BrowserRuntimeCommon.sendMessageToAnywhere(
         {
@@ -21,11 +27,19 @@ export class ChannelContentScript {
           data: event.data.detail,
         },
         (response: any) => {
+          console.log("above response");
+          console.log(event);
           if (!response) {
             return;
           }
+          console.log(event.data);
+          console.log(event.data.iframeIdentifiers?.length);
           window.postMessage(
-            { type: respChannel, detail: response },
+            {
+              type: respChannel,
+              detail: response,
+              iframeIdentifiers: event.data.iframeIdentifiers,
+            },
             POST_MESSAGE_ORIGIN
           );
         }

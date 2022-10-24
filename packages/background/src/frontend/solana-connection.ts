@@ -212,7 +212,9 @@ async function handleGetLatestBlockhash(
   ctx: Context<SolanaConnectionBackend>,
   commitment?: Commitment
 ) {
+  console.log("inside getLatestBlockhash");
   const resp = await ctx.backend.getLatestBlockhash(commitment);
+  console.log("after it");
   return [resp];
 }
 

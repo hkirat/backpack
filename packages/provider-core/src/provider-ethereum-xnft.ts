@@ -13,7 +13,6 @@ import {
   PLUGIN_NOTIFICATION_ETHEREUM_PUBLIC_KEY_UPDATED,
 } from "@coral-xyz/common";
 import * as cmn from "./common/ethereum";
-import { RequestManager } from "./request-manager";
 import { PrivateEventEmitter } from "./common/PrivateEventEmitter";
 import { ChainedRequestManager } from "./chained-request-manager";
 
@@ -24,7 +23,7 @@ const logger = getLogger("provider-xnft-injection");
 //
 export class ProviderEthereumXnftInjection extends PrivateEventEmitter {
   #requestManager: ChainedRequestManager | ChainedRequestManager;
-  #connectionRequestManager: RequestManager;
+  #connectionRequestManager: ChainedRequestManager;
 
   #publicKey?: string;
   #connectionUrl?: string;
@@ -37,7 +36,7 @@ export class ProviderEthereumXnftInjection extends PrivateEventEmitter {
     }
 
     this.#requestManager = requestManager;
-    this.#connectionRequestManager = new RequestManager(
+    this.#connectionRequestManager = new ChainedRequestManager(
       CHANNEL_ETHEREUM_CONNECTION_INJECTED_REQUEST,
       CHANNEL_ETHEREUM_CONNECTION_INJECTED_RESPONSE
     );

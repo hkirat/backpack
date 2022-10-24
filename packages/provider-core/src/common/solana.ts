@@ -129,6 +129,7 @@ export async function signAllTransactions<
   connection: Connection,
   txs: Array<T>
 ): Promise<Array<T>> {
+  console.log("inside signAllTransactions");
   let _blockhash: string | undefined;
   for (let k = 0; k < txs.length; k += 1) {
     const tx = txs[k];
@@ -146,18 +147,21 @@ export async function signAllTransactions<
       tx.recentBlockhash = _blockhash;
     }
   }
+  console.log("hi there");
 
   // Serialize messages.
   const txStrs = txs.map((tx) => {
     const txSerialized = tx.serialize({ requireAllSignatures: false });
     return encode(txSerialized);
   });
+  console.log("before requestManager.request");
 
   // Get signatures from the background script.
   const signatures: Array<string> = await requestManager.request({
     method: SOLANA_RPC_METHOD_SIGN_ALL_TXS,
     params: [txStrs, publicKey.toString()],
   });
+  console.log("after requestManager.request");
 
   // Add the signatures to the transactions.
   txs.forEach((t, idx) => {

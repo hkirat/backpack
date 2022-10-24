@@ -9,7 +9,7 @@ import type {
   ResponseHandler,
 } from "@coral-xyz/common";
 
-const logger = getLogger("common/request-manager");
+const logger = getLogger("common/chain-request-manager");
 
 export class ChainedRequestManager {
   private _responseResolvers: { [requestId: number]: ResponseHandler } = {};
@@ -121,12 +121,24 @@ export class ChainedRequestManager {
     this._requestId += 1;
 
     const [prom, resolve, reject] = this._addResponseResolver(id);
+    console.log("requesting conn");
+    console.log({
+      type: this._requestChannel,
+      // this._url will always be set here, because this._parent is true.
+      href: this._url!,
+      iframeIdentifiers: window.name ? [window.name] : [],
+      detail: {
+        id,
+        method,
+        params,
+      },
+    });
     window.parent.postMessage(
       {
         type: this._requestChannel,
         // this._url will always be set here, because this._parent is true.
         href: this._url!,
-        iframeIdentifiers: [window.name],
+        iframeIdentifiers: window.name ? [window.name] : [],
         detail: {
           id,
           method,

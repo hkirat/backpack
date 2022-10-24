@@ -24,13 +24,9 @@ import {
   PLUGIN_NOTIFICATION_UNMOUNT,
   PLUGIN_NOTIFICATION_SOLANA_CONNECTION_URL_UPDATED,
   PLUGIN_NOTIFICATION_SOLANA_PUBLIC_KEY_UPDATED,
-  PLUGIN_RPC_METHOD_LOCAL_STORAGE_GET,
-  PLUGIN_RPC_METHOD_LOCAL_STORAGE_PUT,
-  PLUGIN_RPC_METHOD_WINDOW_OPEN,
   PLUGIN_NOTIFICATION_UPDATE_METADATA,
 } from "@coral-xyz/common";
 import * as cmn from "./common/solana";
-import { RequestManager } from "./request-manager";
 import { PrivateEventEmitter } from "./common/PrivateEventEmitter";
 import { ChainedRequestManager } from "./chained-request-manager";
 
@@ -44,7 +40,7 @@ export class ProviderSolanaXnftInjection
   implements Provider
 {
   #requestManager: ChainedRequestManager;
-  #connectionRequestManager: RequestManager;
+  #connectionRequestManager: ChainedRequestManager;
 
   #publicKey?: PublicKey;
   #connection: Connection;
@@ -55,7 +51,7 @@ export class ProviderSolanaXnftInjection
       Object.freeze(this);
     }
     this.#requestManager = requestManager;
-    this.#connectionRequestManager = new RequestManager(
+    this.#connectionRequestManager = new ChainedRequestManager(
       CHANNEL_SOLANA_CONNECTION_INJECTED_REQUEST,
       CHANNEL_SOLANA_CONNECTION_INJECTED_RESPONSE
     );
