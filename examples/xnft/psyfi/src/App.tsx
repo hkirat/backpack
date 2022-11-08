@@ -53,8 +53,8 @@ const VaultBalanceRow: React.VFC<{ id: string }> = ({ id }) => {
   const tokenMap = useTokenMap();
   const vaults = useVaultMetadata();
   const vault = vaults[id];
-  const holdings =
-    // @ts-ignore delete wen better typing
+  // @ts-ignore delete wen better typing
+  const holdings: string =
     !!tokenMap[vaults[key].accounts.vaultOwnershipTokenMint]?.amount;
 
   return (
