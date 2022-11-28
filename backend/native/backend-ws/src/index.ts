@@ -16,6 +16,13 @@ wss.on("connection", async (ws, req) => {
   );
 });
 
+wss.on("headers", function (headers) {
+  console.log("headers");
+  console.log(headers);
+  // headers["set-cookie"] = "SESSIONID=" + crypto.randomBytes(20).toString("hex");
+  // console.log("handshake response cookie", headers["set-cookie"]);
+});
+
 process.on("uncaughtException", function (err) {
   console.log("Caught exception: " + err);
 });
