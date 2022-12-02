@@ -2,12 +2,35 @@ import React, { useCallback, useEffect, useState } from "react";
 import { createStyles, makeStyles } from "@mui/styles";
 import { Gif as GifComponent } from "@giphy/react-components";
 import { GiphyFetch } from "@giphy/js-fetch-api";
+import { useChatContext } from "./ChatContext";
 
 // use @giphy/js-fetch-api to fetch gifs, instantiate with your api key
 const gf = new GiphyFetch("SjZwwCn1e394TKKjrMJWb2qQRNcqW8ro");
 
+function formatAMPM(date) {
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let ampm = hours >= 12 ? "pm" : "am";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  return hours + ":" + minutes + " " + ampm;
+}
+
 const useStyles = makeStyles((theme: any) =>
   createStyles({
+    messageLeftContainer: {
+      borderRadius: "16px 16px 16px 0px",
+      color: theme.custom.colors.fontColor2,
+      maxWidth: 200,
+      background: theme.custom.colors.backgroundBackdrop,
+    },
+    messageRightContainer: {
+      borderRadius: "16px 16px 0px 16px",
+      color: theme.custom.colors.fontColor2,
+      maxWidth: 200,
+      background: theme.custom.colors.backgroundBackdrop,
+    },
     messageRow: {
       display: "flex",
     },
@@ -92,22 +115,88 @@ const GifDemo = ({
 export const MessageLeft = (props) => {
   const message = props.message ? props.message : "";
   const timestamp = props.timestamp ? new Date(props.timestamp) : new Date();
+  const displayName = props.username || "-";
+  const classes = useStyles();
+
+  return <div className={classes.messageLeftContainer}>{message}</div>;
+};
+
+export const MessageRight = (props) => {
+  const message = props.message ? props.message : "";
+  const timestamp = props.timestamp ? new Date(props.timestamp) : new Date();
   const photoURL =
     props.image ||
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSYU3l2Xh_TvhuYraxr8HILzhActNrm6Ja63jjO5I&s";
   const displayName = props.username || "-";
   const classes = useStyles();
 
-  function formatAMPM(date) {
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let ampm = hours >= 12 ? "pm" : "am";
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    return hours + ":" + minutes + " " + ampm;
-  }
+  return <div></div>;
+};
 
+export const CollectionMessages = () => {
+  const { chats } = useChatContext();
+
+  return (
+    <div>
+      {chats.map((chat) => {
+        return (
+          <MessageFullLine
+            timestamp={chat.created_at}
+            key={chat.id}
+            message={chat.message}
+            received={chat.received}
+            messageKind={chat.message_kind}
+            image={chat.image}
+            username={chat.username}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+export const IndividualMessages = () => {
+  const { chats, userId } = useChatContext();
+  return (
+    <div>
+      {chats.map((chat) => {
+        if (chat.uuid === userId) {
+          return (
+            <MessageRight
+              timestamp={chat.created_at}
+              key={chat.id}
+              message={chat.message}
+              received={chat.received}
+              messageKind={chat.message_kind}
+              image={chat.image}
+              username={chat.username}
+            />
+          );
+        }
+        return (
+          <MessageLeft
+            timestamp={chat.created_at}
+            key={chat.id}
+            message={chat.message}
+            received={chat.received}
+            messageKind={chat.message_kind}
+            image={chat.image}
+            username={chat.username}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+export const MessageFullLine = (props) => {
+  const message = props.message ? props.message : "";
+  const timestamp = props.timestamp ? new Date(props.timestamp) : new Date();
+  const photoURL =
+    props.image ||
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSYU3l2Xh_TvhuYraxr8HILzhActNrm6Ja63jjO5I&s";
+  const displayName = props.username || "-";
+  const classes = useStyles();
   return (
     <>
       <div className={classes.messageRow}>

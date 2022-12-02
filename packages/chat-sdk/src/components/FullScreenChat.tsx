@@ -1,4 +1,9 @@
-import { MessageLeft } from "./Message";
+import {
+  CollectionMessages,
+  IndividualMessages,
+  MessageFullLine,
+  MessageLeft,
+} from "./Message";
 import { SendMessage } from "./SendMessage";
 import InfoIcon from "@mui/icons-material/Info";
 import { ScrollBarImpl } from "./ScrollbarImpl";
@@ -8,8 +13,9 @@ import { MessagesSkeleton } from "./MessagesSkeleton";
 import { EmptyChat } from "./EmptyChat";
 import { useStyles } from "./styles";
 import { useCustomTheme } from "@coral-xyz/themes";
-export const FullScreenChat = ({ messageContainerRef, chats }) => {
-  const { chatManager, loading, areFriends, requested } = useChatContext();
+export const FullScreenChat = ({ messageContainerRef }) => {
+  const { chatManager, loading, areFriends, requested, type, chats } =
+    useChatContext();
   const [autoScroll, setAutoScroll] = useState(true);
 
   const messageRef = useRef<any>();
@@ -64,21 +70,7 @@ export const FullScreenChat = ({ messageContainerRef, chats }) => {
           )}
           {loading && <MessagesSkeleton />}
           {!loading && chats.length === 0 && <EmptyChat />}
-          {!loading &&
-            chats.length !== 0 &&
-            chats.map((chat) => {
-              return (
-                <MessageLeft
-                  timestamp={chat.created_at}
-                  key={chat.id}
-                  message={chat.message}
-                  received={chat.received}
-                  messageKind={chat.message_kind}
-                  image={chat.image}
-                  username={chat.username}
-                />
-              );
-            })}
+          {!loading && type === "collection" && <CollectionMessages />}
         </div>
       </ScrollBarImpl>
       <div style={{ position: "absolute", bottom: 0, width: "100%" }}>
