@@ -32,6 +32,6 @@ RUN cd /base/packages/common-public && yarn run build
 RUN cd /base/packages/common && yarn run build
 RUN cd /base/backend/native/backend-ws && yarn run build
 
-EXPOSE 8080
+EXPOSE 8082
 
 CMD ["node", "/base/backend/native/backend-ws/dist/index.js"]
