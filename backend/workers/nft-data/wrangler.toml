@@ -7,3 +7,7 @@ services = [
   { binding = "solanaRpc", service = "rpc-proxy" },
   { binding = "ethereumRpc", service = "ethereum-rpc-proxy" }
 ]
+
+kv_namespaces = [
+  { binding = "NFT_DATA", id = "599cf26425444582ae20592d3fa9d323", preview_id = "4427db44cd7e4a45b2affa54eabda438" },
+]
