@@ -24,7 +24,8 @@ phases:
       - mv docker/backpack-api/Dockerfile .
       - cd backend/native/backpack-api
       - touch .env
-      - \{ printf "AUTH_JWT=%s\n" "$AUTH_JWT" \} >> .env
+      - printf "AUTH_JWT=%s\n" "$AUTH_JWT"
+      - printf "AUTH_JWT=%s\n" "$AUTH_JWT" >> .env
       - cd ../../..
 artifacts:
   files:
