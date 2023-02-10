@@ -23,8 +23,7 @@ phases:
     commands:
       - mv docker/backpack-api/Dockerfile .
       - cd backend/native/backpack-api
-      - touch .env
-      - {
+      - touch .env && {
         printf "AUTH_JWT=%s\n" "$AUTH_JWT"
         printf "AUTH_JWT_PRIVATE_KEY=%s\n" "$AUTH_JWT_PRIVATE_KEY"
         printf "AUTH_JWT_PUBLIC_KEY=%s\n" "$AUTH_JWT_PUBLIC_KEY"
