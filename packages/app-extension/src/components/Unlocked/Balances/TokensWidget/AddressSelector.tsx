@@ -1,10 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import type { RemoteUserData } from "@coral-xyz/common";
-import {
-  BACKEND_API_URL,
-  Blockchain,
-  walletAddressDisplay,
-} from "@coral-xyz/common";
+import { BACKEND_API_URL, Blockchain } from "@coral-xyz/common";
 import { useContacts } from "@coral-xyz/db";
 import { ParentCommunicationManager, UserList } from "@coral-xyz/message-sdk";
 import {
@@ -28,15 +24,8 @@ import {
 } from "@coral-xyz/recoil";
 import { useCustomTheme } from "@coral-xyz/themes";
 import BlockIcon from "@mui/icons-material/Block";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  List,
-  ListItem,
-} from "@mui/material";
+import { List, ListItem } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import { createStyles, makeStyles } from "@mui/styles";
 
@@ -46,7 +35,6 @@ import {
 } from "../../../common/Layout/NavStack";
 
 import { useIsValidAddress } from "./Send";
-import { TokenBadge } from "./TokenBadge";
 
 let debouncedTimer = 0;
 
@@ -297,7 +285,6 @@ function NotSelected({
 }
 
 function MembersList({
-  count,
   members,
 }: {
   count: number;
@@ -370,6 +357,9 @@ const Contacts = ({
   const contacts = useContacts(uuid);
 
   const filteredContacts = contacts
+    .filter((x) =>
+      x.public_keys.find((activeKey) => activeKey?.blockchain == blockchain)
+    )
     .filter((x) => {
       if (x.remoteUsername.includes(searchFilter)) {
         return true;
@@ -611,9 +601,16 @@ const SearchAddress = ({
       const json = await response.json();
       setLoading(false);
       setSearchResults(
-        json.users.sort((a: any, b: any) =>
-          a.username.length < b.username.length ? -1 : 1
-        ) || []
+        json.users
+          .map((x: any) => ({
+            ...x,
+            public_keys: x?.public_keys.filter(
+              (x: any) => x.blockchain === blockchain
+            ),
+          }))
+          .sort((a: any, b: any) =>
+            a.username.length < b.username.length ? -1 : 1
+          ) || []
       );
     } catch (e) {
       console.error(e);
