@@ -61,21 +61,25 @@ export const SearchUsers = ({
       {filteredFriends.length > 0 ? (
         <div style={{ marginTop: "24px" }}>
           <BubbleTopLabel text="Your friends" />
+          {requests.received.length > 0 ? (
+            <RequestHeader requests={requests} />
+          ) : null}
           <UserList users={filteredFriends as RemoteUserData[]} />
-          {requests.received.length > 0 ? <RequestHeader requests={requests} /> : null}
         </div>
       ) : (
         <>
-          {requests.received.length > 0 ? <div
-            style={{
+          {requests.received.length > 0 ? (
+            <div
+              style={{
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
                 marginBottom: "8px",
               }}
             >
-            <RequestHeader requests={requests} />
-          </div> : null}
+              <RequestHeader requests={requests} />
+            </div>
+          ) : null}
           <EmptyState
             icon={(props: any) => (
               <ContactsIcon fill={theme.custom.colors.icon} {...props} />
