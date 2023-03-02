@@ -599,7 +599,7 @@ export const ResolveFromPath = (
   returns: ReturnTypesType,
   ops: Operations
 ) => {
-  // @ts-ignore
+  //@ts-ignore
   const ResolvePropsType = (mappedParts: Part[]) => {
     const oKey = ops[mappedParts[0].v];
     const propsP1 = oKey ? props[oKey] : props[mappedParts[0].v];
@@ -1959,6 +1959,139 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
   };
+  /** columns and relationships of "chat_history_updates" */
+  ["chat_history_updates"]: AliasType<{
+    client_generated_uuid?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    room?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "chat_history_updates". All fields are combined with a logical 'AND'. */
+  ["chat_history_updates_bool_exp"]: {
+    _and?:
+      | Array<ValueTypes["chat_history_updates_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _not?:
+      | ValueTypes["chat_history_updates_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    _or?:
+      | Array<ValueTypes["chat_history_updates_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    client_generated_uuid?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    created_at?:
+      | ValueTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?:
+      | ValueTypes["Int_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    room?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    type?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** unique or primary key constraints on table "chat_history_updates" */
+  ["chat_history_updates_constraint"]: chat_history_updates_constraint;
+  /** input type for inserting data into table "chat_history_updates" */
+  ["chat_history_updates_insert_input"]: {
+    client_generated_uuid?: string | undefined | null | Variable<any, string>;
+    created_at?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: number | undefined | null | Variable<any, string>;
+    room?: string | undefined | null | Variable<any, string>;
+    type?: string | undefined | null | Variable<any, string>;
+  };
+  /** response of any mutation on the table "chat_history_updates" */
+  ["chat_history_updates_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes["chat_history_updates"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "chat_history_updates" */
+  ["chat_history_updates_on_conflict"]: {
+    constraint:
+      | ValueTypes["chat_history_updates_constraint"]
+      | Variable<any, string>;
+    update_columns:
+      | Array<ValueTypes["chat_history_updates_update_column"]>
+      | Variable<any, string>;
+    where?:
+      | ValueTypes["chat_history_updates_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Ordering options when selecting data from "chat_history_updates". */
+  ["chat_history_updates_order_by"]: {
+    client_generated_uuid?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    created_at?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    room?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    type?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** select columns of table "chat_history_updates" */
+  ["chat_history_updates_select_column"]: chat_history_updates_select_column;
+  /** Streaming cursor of the table "chat_history_updates" */
+  ["chat_history_updates_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value:
+      | ValueTypes["chat_history_updates_stream_cursor_value_input"]
+      | Variable<any, string>;
+    /** cursor ordering */
+    ordering?:
+      | ValueTypes["cursor_ordering"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["chat_history_updates_stream_cursor_value_input"]: {
+    client_generated_uuid?: string | undefined | null | Variable<any, string>;
+    created_at?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: number | undefined | null | Variable<any, string>;
+    room?: string | undefined | null | Variable<any, string>;
+    type?: string | undefined | null | Variable<any, string>;
+  };
+  /** placeholder for update columns of table "chat_history_updates" (current role has no relevant permissions) */
+  ["chat_history_updates_update_column"]: chat_history_updates_update_column;
   /** columns and relationships of "chat_media_messages" */
   ["chat_media_messages"]: AliasType<{
     /** An object relationship */
@@ -2900,6 +3033,34 @@ export type ValueTypes = {
           | Variable<any, string>;
       },
       ValueTypes["chat_barter_metadata"]
+    ];
+    insert_chat_history_updates?: [
+      {
+        /** the rows to be inserted */
+        objects:
+          | Array<ValueTypes["chat_history_updates_insert_input"]>
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["chat_history_updates_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat_history_updates_mutation_response"]
+    ];
+    insert_chat_history_updates_one?: [
+      {
+        /** the row to be inserted */
+        object:
+          | ValueTypes["chat_history_updates_insert_input"]
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["chat_history_updates_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat_history_updates"]
     ];
     insert_chat_media_messages?: [
       {
@@ -3904,6 +4065,44 @@ export type ValueTypes = {
           | Variable<any, string>;
       },
       ValueTypes["chat_barter_metadata"]
+    ];
+    chat_history_updates?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["chat_history_updates_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["chat_history_updates_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_history_updates_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat_history_updates"]
+    ];
+    chat_history_updates_by_pk?: [
+      { id: number | Variable<any, string> },
+      ValueTypes["chat_history_updates"]
     ];
     chat_media_messages?: [
       {
@@ -5316,6 +5515,68 @@ export type ValueTypes = {
       },
       ValueTypes["chat_barter_metadata"]
     ];
+    chat_history_updates?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["chat_history_updates_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["chat_history_updates_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_history_updates_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat_history_updates"]
+    ];
+    chat_history_updates_by_pk?: [
+      { id: number | Variable<any, string> },
+      ValueTypes["chat_history_updates"]
+    ];
+    chat_history_updates_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size:
+          | number
+          | Variable<
+              any,
+              string
+            > /** cursor to stream the results returned by the query */;
+        cursor:
+          | Array<
+              | ValueTypes["chat_history_updates_stream_cursor_input"]
+              | undefined
+              | null
+            >
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_history_updates_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat_history_updates"]
+    ];
     chat_media_messages?: [
       {
         /** distinct select on columns */
@@ -6372,6 +6633,97 @@ export type ResolverInputTypes = {
   ["chat_barter_metadata_variance_order_by"]: {
     barter_id?: ResolverInputTypes["order_by"] | undefined | null;
   };
+  /** columns and relationships of "chat_history_updates" */
+  ["chat_history_updates"]: AliasType<{
+    client_generated_uuid?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    room?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "chat_history_updates". All fields are combined with a logical 'AND'. */
+  ["chat_history_updates_bool_exp"]: {
+    _and?:
+      | Array<ResolverInputTypes["chat_history_updates_bool_exp"]>
+      | undefined
+      | null;
+    _not?:
+      | ResolverInputTypes["chat_history_updates_bool_exp"]
+      | undefined
+      | null;
+    _or?:
+      | Array<ResolverInputTypes["chat_history_updates_bool_exp"]>
+      | undefined
+      | null;
+    client_generated_uuid?:
+      | ResolverInputTypes["String_comparison_exp"]
+      | undefined
+      | null;
+    created_at?:
+      | ResolverInputTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null;
+    id?: ResolverInputTypes["Int_comparison_exp"] | undefined | null;
+    room?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    type?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+  };
+  /** unique or primary key constraints on table "chat_history_updates" */
+  ["chat_history_updates_constraint"]: chat_history_updates_constraint;
+  /** input type for inserting data into table "chat_history_updates" */
+  ["chat_history_updates_insert_input"]: {
+    client_generated_uuid?: string | undefined | null;
+    created_at?: ResolverInputTypes["timestamptz"] | undefined | null;
+    id?: number | undefined | null;
+    room?: string | undefined | null;
+    type?: string | undefined | null;
+  };
+  /** response of any mutation on the table "chat_history_updates" */
+  ["chat_history_updates_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["chat_history_updates"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "chat_history_updates" */
+  ["chat_history_updates_on_conflict"]: {
+    constraint: ResolverInputTypes["chat_history_updates_constraint"];
+    update_columns: Array<
+      ResolverInputTypes["chat_history_updates_update_column"]
+    >;
+    where?:
+      | ResolverInputTypes["chat_history_updates_bool_exp"]
+      | undefined
+      | null;
+  };
+  /** Ordering options when selecting data from "chat_history_updates". */
+  ["chat_history_updates_order_by"]: {
+    client_generated_uuid?: ResolverInputTypes["order_by"] | undefined | null;
+    created_at?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    room?: ResolverInputTypes["order_by"] | undefined | null;
+    type?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** select columns of table "chat_history_updates" */
+  ["chat_history_updates_select_column"]: chat_history_updates_select_column;
+  /** Streaming cursor of the table "chat_history_updates" */
+  ["chat_history_updates_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["chat_history_updates_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["chat_history_updates_stream_cursor_value_input"]: {
+    client_generated_uuid?: string | undefined | null;
+    created_at?: ResolverInputTypes["timestamptz"] | undefined | null;
+    id?: number | undefined | null;
+    room?: string | undefined | null;
+    type?: string | undefined | null;
+  };
+  /** placeholder for update columns of table "chat_history_updates" (current role has no relevant permissions) */
+  ["chat_history_updates_update_column"]: chat_history_updates_update_column;
   /** columns and relationships of "chat_media_messages" */
   ["chat_media_messages"]: AliasType<{
     /** An object relationship */
@@ -7047,6 +7399,30 @@ export type ResolverInputTypes = {
           | null;
       },
       ResolverInputTypes["chat_barter_metadata"]
+    ];
+    insert_chat_history_updates?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ResolverInputTypes["chat_history_updates_insert_input"]
+        > /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["chat_history_updates_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["chat_history_updates_mutation_response"]
+    ];
+    insert_chat_history_updates_one?: [
+      {
+        /** the row to be inserted */
+        object: ResolverInputTypes["chat_history_updates_insert_input"] /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["chat_history_updates_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["chat_history_updates"]
     ];
     insert_chat_media_messages?: [
       {
@@ -7790,6 +8166,36 @@ export type ResolverInputTypes = {
           | null;
       },
       ResolverInputTypes["chat_barter_metadata"]
+    ];
+    chat_history_updates?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["chat_history_updates_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["chat_history_updates_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ResolverInputTypes["chat_history_updates_bool_exp"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["chat_history_updates"]
+    ];
+    chat_history_updates_by_pk?: [
+      { id: number },
+      ResolverInputTypes["chat_history_updates"]
     ];
     chat_media_messages?: [
       {
@@ -8786,6 +9192,52 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["chat_barter_metadata"]
     ];
+    chat_history_updates?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["chat_history_updates_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["chat_history_updates_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ResolverInputTypes["chat_history_updates_bool_exp"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["chat_history_updates"]
+    ];
+    chat_history_updates_by_pk?: [
+      { id: number },
+      ResolverInputTypes["chat_history_updates"]
+    ];
+    chat_history_updates_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ResolverInputTypes["chat_history_updates_stream_cursor_input"]
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?:
+          | ResolverInputTypes["chat_history_updates_bool_exp"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["chat_history_updates"]
+    ];
     chat_media_messages?: [
       {
         /** distinct select on columns */
@@ -9543,6 +9995,72 @@ export type ModelTypes = {
   ["chat_barter_metadata_variance_order_by"]: {
     barter_id?: ModelTypes["order_by"] | undefined;
   };
+  /** columns and relationships of "chat_history_updates" */
+  ["chat_history_updates"]: {
+    client_generated_uuid: string;
+    created_at: ModelTypes["timestamptz"];
+    id: number;
+    room: string;
+    type: string;
+  };
+  /** Boolean expression to filter rows from the table "chat_history_updates". All fields are combined with a logical 'AND'. */
+  ["chat_history_updates_bool_exp"]: {
+    _and?: Array<ModelTypes["chat_history_updates_bool_exp"]> | undefined;
+    _not?: ModelTypes["chat_history_updates_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["chat_history_updates_bool_exp"]> | undefined;
+    client_generated_uuid?: ModelTypes["String_comparison_exp"] | undefined;
+    created_at?: ModelTypes["timestamptz_comparison_exp"] | undefined;
+    id?: ModelTypes["Int_comparison_exp"] | undefined;
+    room?: ModelTypes["String_comparison_exp"] | undefined;
+    type?: ModelTypes["String_comparison_exp"] | undefined;
+  };
+  ["chat_history_updates_constraint"]: chat_history_updates_constraint;
+  /** input type for inserting data into table "chat_history_updates" */
+  ["chat_history_updates_insert_input"]: {
+    client_generated_uuid?: string | undefined;
+    created_at?: ModelTypes["timestamptz"] | undefined;
+    id?: number | undefined;
+    room?: string | undefined;
+    type?: string | undefined;
+  };
+  /** response of any mutation on the table "chat_history_updates" */
+  ["chat_history_updates_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["chat_history_updates"]>;
+  };
+  /** on_conflict condition type for table "chat_history_updates" */
+  ["chat_history_updates_on_conflict"]: {
+    constraint: ModelTypes["chat_history_updates_constraint"];
+    update_columns: Array<ModelTypes["chat_history_updates_update_column"]>;
+    where?: ModelTypes["chat_history_updates_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "chat_history_updates". */
+  ["chat_history_updates_order_by"]: {
+    client_generated_uuid?: ModelTypes["order_by"] | undefined;
+    created_at?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    room?: ModelTypes["order_by"] | undefined;
+    type?: ModelTypes["order_by"] | undefined;
+  };
+  ["chat_history_updates_select_column"]: chat_history_updates_select_column;
+  /** Streaming cursor of the table "chat_history_updates" */
+  ["chat_history_updates_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["chat_history_updates_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["chat_history_updates_stream_cursor_value_input"]: {
+    client_generated_uuid?: string | undefined;
+    created_at?: ModelTypes["timestamptz"] | undefined;
+    id?: number | undefined;
+    room?: string | undefined;
+    type?: string | undefined;
+  };
+  ["chat_history_updates_update_column"]: chat_history_updates_update_column;
   /** columns and relationships of "chat_media_messages" */
   ["chat_media_messages"]: {
     /** An object relationship */
@@ -9919,6 +10437,14 @@ export type ModelTypes = {
     insert_chat_barter_metadata_one?:
       | ModelTypes["chat_barter_metadata"]
       | undefined;
+    /** insert data into the table: "chat_history_updates" */
+    insert_chat_history_updates?:
+      | ModelTypes["chat_history_updates_mutation_response"]
+      | undefined;
+    /** insert a single row into the table: "chat_history_updates" */
+    insert_chat_history_updates_one?:
+      | ModelTypes["chat_history_updates"]
+      | undefined;
     /** insert data into the table: "chat_media_messages" */
     insert_chat_media_messages?:
       | ModelTypes["chat_media_messages_mutation_response"]
@@ -10229,6 +10755,10 @@ export type ModelTypes = {
     barters_by_pk?: ModelTypes["barters"] | undefined;
     /** An array relationship */
     chat_barter_metadata: Array<ModelTypes["chat_barter_metadata"]>;
+    /** fetch data from the table: "chat_history_updates" */
+    chat_history_updates: Array<ModelTypes["chat_history_updates"]>;
+    /** fetch data from the table: "chat_history_updates" using primary key columns */
+    chat_history_updates_by_pk?: ModelTypes["chat_history_updates"] | undefined;
     /** An array relationship */
     chat_media_messages: Array<ModelTypes["chat_media_messages"]>;
     /** fetch data from the table: "chat_media_messages" using primary key columns */
@@ -10805,6 +11335,12 @@ export type ModelTypes = {
     chat_barter_metadata: Array<ModelTypes["chat_barter_metadata"]>;
     /** fetch data from the table in a streaming manner: "chat_barter_metadata" */
     chat_barter_metadata_stream: Array<ModelTypes["chat_barter_metadata"]>;
+    /** fetch data from the table: "chat_history_updates" */
+    chat_history_updates: Array<ModelTypes["chat_history_updates"]>;
+    /** fetch data from the table: "chat_history_updates" using primary key columns */
+    chat_history_updates_by_pk?: ModelTypes["chat_history_updates"] | undefined;
+    /** fetch data from the table in a streaming manner: "chat_history_updates" */
+    chat_history_updates_stream: Array<ModelTypes["chat_history_updates"]>;
     /** An array relationship */
     chat_media_messages: Array<ModelTypes["chat_media_messages"]>;
     /** fetch data from the table: "chat_media_messages" using primary key columns */
@@ -11363,6 +11899,77 @@ export type GraphQLTypes = {
   ["chat_barter_metadata_variance_order_by"]: {
     barter_id?: GraphQLTypes["order_by"] | undefined;
   };
+  /** columns and relationships of "chat_history_updates" */
+  ["chat_history_updates"]: {
+    __typename: "chat_history_updates";
+    client_generated_uuid: string;
+    created_at: GraphQLTypes["timestamptz"];
+    id: number;
+    room: string;
+    type: string;
+  };
+  /** Boolean expression to filter rows from the table "chat_history_updates". All fields are combined with a logical 'AND'. */
+  ["chat_history_updates_bool_exp"]: {
+    _and?: Array<GraphQLTypes["chat_history_updates_bool_exp"]> | undefined;
+    _not?: GraphQLTypes["chat_history_updates_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["chat_history_updates_bool_exp"]> | undefined;
+    client_generated_uuid?: GraphQLTypes["String_comparison_exp"] | undefined;
+    created_at?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
+    id?: GraphQLTypes["Int_comparison_exp"] | undefined;
+    room?: GraphQLTypes["String_comparison_exp"] | undefined;
+    type?: GraphQLTypes["String_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "chat_history_updates" */
+  ["chat_history_updates_constraint"]: chat_history_updates_constraint;
+  /** input type for inserting data into table "chat_history_updates" */
+  ["chat_history_updates_insert_input"]: {
+    client_generated_uuid?: string | undefined;
+    created_at?: GraphQLTypes["timestamptz"] | undefined;
+    id?: number | undefined;
+    room?: string | undefined;
+    type?: string | undefined;
+  };
+  /** response of any mutation on the table "chat_history_updates" */
+  ["chat_history_updates_mutation_response"]: {
+    __typename: "chat_history_updates_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["chat_history_updates"]>;
+  };
+  /** on_conflict condition type for table "chat_history_updates" */
+  ["chat_history_updates_on_conflict"]: {
+    constraint: GraphQLTypes["chat_history_updates_constraint"];
+    update_columns: Array<GraphQLTypes["chat_history_updates_update_column"]>;
+    where?: GraphQLTypes["chat_history_updates_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "chat_history_updates". */
+  ["chat_history_updates_order_by"]: {
+    client_generated_uuid?: GraphQLTypes["order_by"] | undefined;
+    created_at?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    room?: GraphQLTypes["order_by"] | undefined;
+    type?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** select columns of table "chat_history_updates" */
+  ["chat_history_updates_select_column"]: chat_history_updates_select_column;
+  /** Streaming cursor of the table "chat_history_updates" */
+  ["chat_history_updates_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["chat_history_updates_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["chat_history_updates_stream_cursor_value_input"]: {
+    client_generated_uuid?: string | undefined;
+    created_at?: GraphQLTypes["timestamptz"] | undefined;
+    id?: number | undefined;
+    room?: string | undefined;
+    type?: string | undefined;
+  };
+  /** placeholder for update columns of table "chat_history_updates" (current role has no relevant permissions) */
+  ["chat_history_updates_update_column"]: chat_history_updates_update_column;
   /** columns and relationships of "chat_media_messages" */
   ["chat_media_messages"]: {
     __typename: "chat_media_messages";
@@ -11755,6 +12362,14 @@ export type GraphQLTypes = {
     insert_chat_barter_metadata_one?:
       | GraphQLTypes["chat_barter_metadata"]
       | undefined;
+    /** insert data into the table: "chat_history_updates" */
+    insert_chat_history_updates?:
+      | GraphQLTypes["chat_history_updates_mutation_response"]
+      | undefined;
+    /** insert a single row into the table: "chat_history_updates" */
+    insert_chat_history_updates_one?:
+      | GraphQLTypes["chat_history_updates"]
+      | undefined;
     /** insert data into the table: "chat_media_messages" */
     insert_chat_media_messages?:
       | GraphQLTypes["chat_media_messages_mutation_response"]
@@ -12084,6 +12699,12 @@ export type GraphQLTypes = {
     barters_by_pk?: GraphQLTypes["barters"] | undefined;
     /** An array relationship */
     chat_barter_metadata: Array<GraphQLTypes["chat_barter_metadata"]>;
+    /** fetch data from the table: "chat_history_updates" */
+    chat_history_updates: Array<GraphQLTypes["chat_history_updates"]>;
+    /** fetch data from the table: "chat_history_updates" using primary key columns */
+    chat_history_updates_by_pk?:
+      | GraphQLTypes["chat_history_updates"]
+      | undefined;
     /** An array relationship */
     chat_media_messages: Array<GraphQLTypes["chat_media_messages"]>;
     /** fetch data from the table: "chat_media_messages" using primary key columns */
@@ -12688,6 +13309,14 @@ export type GraphQLTypes = {
     chat_barter_metadata: Array<GraphQLTypes["chat_barter_metadata"]>;
     /** fetch data from the table in a streaming manner: "chat_barter_metadata" */
     chat_barter_metadata_stream: Array<GraphQLTypes["chat_barter_metadata"]>;
+    /** fetch data from the table: "chat_history_updates" */
+    chat_history_updates: Array<GraphQLTypes["chat_history_updates"]>;
+    /** fetch data from the table: "chat_history_updates" using primary key columns */
+    chat_history_updates_by_pk?:
+      | GraphQLTypes["chat_history_updates"]
+      | undefined;
+    /** fetch data from the table in a streaming manner: "chat_history_updates" */
+    chat_history_updates_stream: Array<GraphQLTypes["chat_history_updates"]>;
     /** An array relationship */
     chat_media_messages: Array<GraphQLTypes["chat_media_messages"]>;
     /** fetch data from the table: "chat_media_messages" using primary key columns */
@@ -12800,6 +13429,22 @@ export const enum chat_barter_metadata_select_column {
 }
 /** placeholder for update columns of table "chat_barter_metadata" (current role has no relevant permissions) */
 export const enum chat_barter_metadata_update_column {
+  _PLACEHOLDER = "_PLACEHOLDER",
+}
+/** unique or primary key constraints on table "chat_history_updates" */
+export const enum chat_history_updates_constraint {
+  chat_history_updates_pkey = "chat_history_updates_pkey",
+}
+/** select columns of table "chat_history_updates" */
+export const enum chat_history_updates_select_column {
+  client_generated_uuid = "client_generated_uuid",
+  created_at = "created_at",
+  id = "id",
+  room = "room",
+  type = "type",
+}
+/** placeholder for update columns of table "chat_history_updates" (current role has no relevant permissions) */
+export const enum chat_history_updates_update_column {
   _PLACEHOLDER = "_PLACEHOLDER",
 }
 /** unique or primary key constraints on table "chat_media_messages" */
@@ -12999,6 +13644,15 @@ type ZEUS_VARIABLES = {
   ["chat_barter_metadata_var_pop_order_by"]: ValueTypes["chat_barter_metadata_var_pop_order_by"];
   ["chat_barter_metadata_var_samp_order_by"]: ValueTypes["chat_barter_metadata_var_samp_order_by"];
   ["chat_barter_metadata_variance_order_by"]: ValueTypes["chat_barter_metadata_variance_order_by"];
+  ["chat_history_updates_bool_exp"]: ValueTypes["chat_history_updates_bool_exp"];
+  ["chat_history_updates_constraint"]: ValueTypes["chat_history_updates_constraint"];
+  ["chat_history_updates_insert_input"]: ValueTypes["chat_history_updates_insert_input"];
+  ["chat_history_updates_on_conflict"]: ValueTypes["chat_history_updates_on_conflict"];
+  ["chat_history_updates_order_by"]: ValueTypes["chat_history_updates_order_by"];
+  ["chat_history_updates_select_column"]: ValueTypes["chat_history_updates_select_column"];
+  ["chat_history_updates_stream_cursor_input"]: ValueTypes["chat_history_updates_stream_cursor_input"];
+  ["chat_history_updates_stream_cursor_value_input"]: ValueTypes["chat_history_updates_stream_cursor_value_input"];
+  ["chat_history_updates_update_column"]: ValueTypes["chat_history_updates_update_column"];
   ["chat_media_messages_aggregate_order_by"]: ValueTypes["chat_media_messages_aggregate_order_by"];
   ["chat_media_messages_arr_rel_insert_input"]: ValueTypes["chat_media_messages_arr_rel_insert_input"];
   ["chat_media_messages_avg_order_by"]: ValueTypes["chat_media_messages_avg_order_by"];

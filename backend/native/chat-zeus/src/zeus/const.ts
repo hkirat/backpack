@@ -251,6 +251,41 @@ export const AllTypesProps: Record<string, any> = {
   chat_barter_metadata_variance_order_by: {
     barter_id: "order_by",
   },
+  chat_history_updates_bool_exp: {
+    _and: "chat_history_updates_bool_exp",
+    _not: "chat_history_updates_bool_exp",
+    _or: "chat_history_updates_bool_exp",
+    client_generated_uuid: "String_comparison_exp",
+    created_at: "timestamptz_comparison_exp",
+    id: "Int_comparison_exp",
+    room: "String_comparison_exp",
+    type: "String_comparison_exp",
+  },
+  chat_history_updates_constraint: "enum" as const,
+  chat_history_updates_insert_input: {
+    created_at: "timestamptz",
+  },
+  chat_history_updates_on_conflict: {
+    constraint: "chat_history_updates_constraint",
+    update_columns: "chat_history_updates_update_column",
+    where: "chat_history_updates_bool_exp",
+  },
+  chat_history_updates_order_by: {
+    client_generated_uuid: "order_by",
+    created_at: "order_by",
+    id: "order_by",
+    room: "order_by",
+    type: "order_by",
+  },
+  chat_history_updates_select_column: "enum" as const,
+  chat_history_updates_stream_cursor_input: {
+    initial_value: "chat_history_updates_stream_cursor_value_input",
+    ordering: "cursor_ordering",
+  },
+  chat_history_updates_stream_cursor_value_input: {
+    created_at: "timestamptz",
+  },
+  chat_history_updates_update_column: "enum" as const,
   chat_media_messages_aggregate_order_by: {
     avg: "chat_media_messages_avg_order_by",
     count: "order_by",
@@ -483,6 +518,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_chat_barter_metadata_one: {
       object: "chat_barter_metadata_insert_input",
       on_conflict: "chat_barter_metadata_on_conflict",
+    },
+    insert_chat_history_updates: {
+      objects: "chat_history_updates_insert_input",
+      on_conflict: "chat_history_updates_on_conflict",
+    },
+    insert_chat_history_updates_one: {
+      object: "chat_history_updates_insert_input",
+      on_conflict: "chat_history_updates_on_conflict",
     },
     insert_chat_media_messages: {
       objects: "chat_media_messages_insert_input",
@@ -750,6 +793,12 @@ export const AllTypesProps: Record<string, any> = {
       order_by: "chat_barter_metadata_order_by",
       where: "chat_barter_metadata_bool_exp",
     },
+    chat_history_updates: {
+      distinct_on: "chat_history_updates_select_column",
+      order_by: "chat_history_updates_order_by",
+      where: "chat_history_updates_bool_exp",
+    },
+    chat_history_updates_by_pk: {},
     chat_media_messages: {
       distinct_on: "chat_media_messages_select_column",
       order_by: "chat_media_messages_order_by",
@@ -1115,6 +1164,16 @@ export const AllTypesProps: Record<string, any> = {
       cursor: "chat_barter_metadata_stream_cursor_input",
       where: "chat_barter_metadata_bool_exp",
     },
+    chat_history_updates: {
+      distinct_on: "chat_history_updates_select_column",
+      order_by: "chat_history_updates_order_by",
+      where: "chat_history_updates_bool_exp",
+    },
+    chat_history_updates_by_pk: {},
+    chat_history_updates_stream: {
+      cursor: "chat_history_updates_stream_cursor_input",
+      where: "chat_history_updates_bool_exp",
+    },
     chat_media_messages: {
       distinct_on: "chat_media_messages_select_column",
       order_by: "chat_media_messages_order_by",
@@ -1228,6 +1287,17 @@ export const ReturnTypes: Record<string, any> = {
     affected_rows: "Int",
     returning: "chat_barter_metadata",
   },
+  chat_history_updates: {
+    client_generated_uuid: "String",
+    created_at: "timestamptz",
+    id: "Int",
+    room: "String",
+    type: "String",
+  },
+  chat_history_updates_mutation_response: {
+    affected_rows: "Int",
+    returning: "chat_history_updates",
+  },
   chat_media_messages: {
     chat: "chats",
     id: "Int",
@@ -1272,6 +1342,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_barters_one: "barters",
     insert_chat_barter_metadata: "chat_barter_metadata_mutation_response",
     insert_chat_barter_metadata_one: "chat_barter_metadata",
+    insert_chat_history_updates: "chat_history_updates_mutation_response",
+    insert_chat_history_updates_one: "chat_history_updates",
     insert_chat_media_messages: "chat_media_messages_mutation_response",
     insert_chat_media_messages_one: "chat_media_messages",
     insert_chats: "chats_mutation_response",
@@ -1333,6 +1405,8 @@ export const ReturnTypes: Record<string, any> = {
     barters: "barters",
     barters_by_pk: "barters",
     chat_barter_metadata: "chat_barter_metadata",
+    chat_history_updates: "chat_history_updates",
+    chat_history_updates_by_pk: "chat_history_updates",
     chat_media_messages: "chat_media_messages",
     chat_media_messages_by_pk: "chat_media_messages",
     chats: "chats",
@@ -1390,6 +1464,9 @@ export const ReturnTypes: Record<string, any> = {
     barters_stream: "barters",
     chat_barter_metadata: "chat_barter_metadata",
     chat_barter_metadata_stream: "chat_barter_metadata",
+    chat_history_updates: "chat_history_updates",
+    chat_history_updates_by_pk: "chat_history_updates",
+    chat_history_updates_stream: "chat_history_updates",
     chat_media_messages: "chat_media_messages",
     chat_media_messages_by_pk: "chat_media_messages",
     chat_media_messages_stream: "chat_media_messages",
